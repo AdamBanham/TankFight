@@ -84,10 +84,7 @@ namespace TankBattle
             }
             try
             {
-                if (terrain[y, x]) // checks location 
-                {
-                    isTerrain = true; // change bool to show terrain
-                }
+                isTerrain = (terrain[y, x]) ? (true) : (false);
             }
             catch(IndexOutOfRangeException error)
             {
@@ -118,10 +115,7 @@ namespace TankBattle
                                         width < Battlefield.WIDTH;
                                         width++)// check each range of a row for terrain
                     {
-                        if (Get(width, height)) //check point for terrain
-                        {
-                            colisionCount++; // increment tile count for terrain
-                        }
+                        colisionCount = (Get(width, height)) ? (colisionCount + 1):(colisionCount);
                     }
                 }
             }
@@ -146,11 +140,9 @@ namespace TankBattle
             //check the height of the tank for the lowest point with
             for(int height = 0; height < HEIGHT; height++)
             {
-                if (!TankFits(x, height))// check to see tank will fit at location
-                {
-                    highPoint = height; // get the highpoint
-                    
-                }
+                // check to see tank will fit at location
+                highPoint = (!TankFits(x, height)) ? (height)// get the highpoint,
+                                                   : (highPoint);
             }
             return highPoint;
         }
@@ -170,10 +162,9 @@ namespace TankBattle
                 {
                     //work out distance between current point and destruction point
                     float distance = (float)Math.Sqrt(Math.Pow(destroyX - width, 2) + (Math.Pow(destroyY - height, 2)));
-                    if (distance < radius) // check if point is inside circle
-                    {
-                        terrain[(int)height,(int)width] = false; //remove terrain from point
-                    }
+                    // check if point is inside circle
+                    terrain[(int)height, (int)width] = (distance < radius) ? (false) // remove terrain from inside radius
+                                                                           : (terrain[(int)height, (int)width]); // leave terrain alone
                 }
             }
         }
