@@ -85,7 +85,7 @@ namespace TankBattle
         /// returns the player in players array via the playerNum
         /// </summary>
         /// <param name="playerNum"></param>
-        /// <returns></returns>
+        /// <returns>returns the reference of a player</returns>
         public GenericPlayer GetPlayerNumber(int playerNum)
         {
             // returns a player given a player number , to cal for index change 
@@ -106,7 +106,7 @@ namespace TankBattle
         /// returns a colour given a player number
         /// </summary>
         /// <param name="playerNum"></param>
-        /// <returns></returns>
+        /// <returns>the colour based off the playerNum</returns>
         public static Color TankColour(int playerNum)
         {
             // check playernumber and return a colour
@@ -138,7 +138,7 @@ namespace TankBattle
         /// given a number of players , returns an array giving the horizontal positions of those players on the map
         /// </summary>
         /// <param name="numPlayers"></param>
-        /// <returns></returns>
+        /// <returns>a array of x positions for the numPlayers</returns>
         public static int[] CalcPlayerLocations(int numPlayers)
         {
             int[] positions = new int[numPlayers]; // needs to be sort from smallest to largest
@@ -165,7 +165,7 @@ namespace TankBattle
         /// <param name="array"></param>
         public static void RandomReorder(int[] array)
         {
-            bool movedelement = false;
+            bool movedElement = false;
             int[] randomArray = new int[array.Length]; 
             int selectedInput;
             bool[] usedPosition = new bool[array.Length];
@@ -174,9 +174,9 @@ namespace TankBattle
             if (array.Length > 1) // if the array has more than one entry then swap each element to a new element
             {
                 
-                movedelement = false;
+                movedElement = false;
                 // for each element in the array place it into the new array in a different position.
-                while (!(movedelement))
+                while (!(movedElement))
                 {
                     randomArray = new int[array.Length];
                     // set all usedpositions to false
@@ -197,7 +197,7 @@ namespace TankBattle
                         }
                         if (!(i == selectedInput))
                         {
-                            movedelement = true;
+                            movedElement = true;
                         }
                         //add the element into the reorder array
                         //change the position to used
@@ -216,8 +216,6 @@ namespace TankBattle
             {
                 // an array of one element cant be changed;
             }
-
-            
         }
 
         /// <summary>
@@ -240,7 +238,6 @@ namespace TankBattle
             int minWindSpeed = -100;
             int maxWindSPeed = 100;
             Random randomvalue = new Random();
-            ///
             currentPlayer = startingPlayer; // sets the first turn to the starting player
             newBattlefield = new Battlefield() ;
             positions = CalcPlayerLocations(Players.Length);
@@ -301,7 +298,7 @@ namespace TankBattle
         /// <summary>
         /// returns the gameplay tank associated with the current player.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a gameplayTank associated with a player</returns>
         public GameplayTank GetPlayerTank()
         {
             return Tanks[currentPlayer];
@@ -321,9 +318,9 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// loops through AttackEffects and calls tick on each , reutrns true if ticked were called
+        /// loops through AttackEffects and calls tick on each 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>reutrns true if ticked were called</returns>
         public bool ProcessWeaponEffects()
         {
             bool tickCalled = false; // bool to store if ticks occured
@@ -369,11 +366,11 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// This method reutns ture if a Bullet at proX,proY will hit something
+        /// This method checks if a Bullet at proX,proY will hit something
         /// </summary>
         /// <param name="projectileX">current X cord of bullet</param>
         /// <param name="projectileY">current Y cord of bullet</param>
-        /// <returns></returns>
+        /// <returns>returns true if terrain or a tank is at location X,Y</returns>
         public bool CheckCollidedTank(float projectileX, float projectileY)
         {
             //check bounds of proX , proY are inside map boundaires
@@ -388,34 +385,27 @@ namespace TankBattle
             // check if battlefield has something at location
             if (newBattlefield.Get((int)projectileX,(int)projectileY))
             {
-                return true; // this bullet will hit something
+                return true; // this bullet will hit terrain
             }
             // check if a tank is at location
             foreach (GameplayTank tank in Tanks)
             {
-                if (!((Tanks[currentPlayer]) == tank)) // check that the tank firing isnt checked
+                if (!((Tanks[currentPlayer]) == tank) && tank.TankExists() ) // check that the tank firing isnt checked
                 {
                     // tanks have width and hieght and each combination needs to be checked against proX and proY
-                    for (int Height = 0; Height < TankModel.HEIGHT; Height++) //check Height
+                    for (int Height = 0; Height <= TankModel.HEIGHT; Height++) //check Height
                     {
-                        for (int Width = 0; Width < TankModel.WIDTH; Width++) //check Width
+                        for (int Width = 0; Width <= TankModel.WIDTH; Width++) //check Width
                         {
                             if ((tank.GetX() + Width) == (int)projectileX && (tank.Y()+Height) == (int)projectileY) // check locations against each other
                             {
-                                if (tank.TankExists())
-                                {
-                                    return true; // this bullet will hit a tank
-                                }
-                                
+                             return true; // this bullet will hit a tank
                             }
                         }
                     }
-
                 }
             }
-
             return false; // if none of the conditions are true then bullet will not hit
-
         }
 
         /// <summary>
@@ -430,47 +420,30 @@ namespace TankBattle
             float tankX; //used to store centre of tank
             float tankY; // used to store centre of tank
             float distance; // used to store distance between explosion and tank
-            float damage; // used to store the damage done to tank
-
+            double damage; // used to store the damage done to tank
+            radius = (float)(radius * 1.2); // adjust radius to match visuals of explosion
+            
             foreach (GameplayTank tank in Tanks) // loop through each tank and check if it is inside explosion
             {
+                damage = 0; //reset damage
                 //reset variables for new tank
-                tankX = 0;
-                tankY = 0;
-                distance = 0;
-                damage = 0;
-
+                tankX = 0; tankY = 0; distance = 0; damage = 0;
                 if (tank.TankExists()) // tank still in game
                 {
                     // store cordinates as float for accuratity
-                    tankX = (float)(tank.GetX()+ TankModel.WIDTH/2); // find the centre of a tank by adding half the width
-                    tankY = (float)(tank.Y() + TankModel.HEIGHT /2); // find the centre of a tank by adding half the height 
+                    tankX = (float)(tank.GetX()); // find the centre of a tank by adding half the width
+                    tankY = (float)(tank.Y()); // find the centre of a tank by adding half the height 
                     // calculate distance between bullet hit (damageX,damageY) and tank
-                    // using (x1-x2,2)+(y1-y2,2)
-                    distance =(float) (Math.Pow(damageX - tankX, 2) + Math.Pow(damageY - tankY,2));
-
-                    if (distance < radius) // if tank is within the radius of explosion
+                    // using elucian distnat = sqrt ((x1-x2,2)+(y1-y2,2))
+                    distance =(float) Math.Sqrt(  Math.Pow((damageX - tankX), 2) +
+                                                  Math.Pow((damageY - tankY), 2)
+                                                  );
+                    if (distance <= radius) // if tank is within the radius of explosion
                     {
                         // if tank is over half the radius away
-                        if(distance > radius /2)
-                        {
-                            // damage worked out by mulitpling the percantage of distance is away from the centre of explosion
-                            damage = explosionDamage * ((radius - distance) / radius);
-                        }
-                        else // tank is less than half the radius away
-                        {
-                            // do full damage
-                            damage = explosionDamage;
-                        }
-                        //apply damage to tank
+                        damage = (distance > radius / 2) ? (explosionDamage * .35) : ((double)explosionDamage);
                         tank.DamagePlayer((int)damage);
                     }
-                    else
-                    {
-                        // no damage done to the tank
-                    }
-
-
                 }
             }
         }
@@ -482,17 +455,13 @@ namespace TankBattle
         public bool ProcessGravity()
         {
             bool somethingMoved = false; // used to tell if anything has been moved
-
             // check the terrain and change bool if anything moved
-
             somethingMoved = newBattlefield.ProcessGravity();
-
             foreach (GameplayTank tank in Tanks) // check tanks floating in the air
             {
-                if(tank.ProcessGravity())// returns true if tank is moved
-                {
-                    somethingMoved = true; // if tanked is moved change terrainMoved
-                }
+                //processGravity on each tank
+                somethingMoved = (tank.ProcessGravity()) ? (true) : (somethingMoved);
+                //change moved if tank dropped
             }
             return somethingMoved;
         }
@@ -509,10 +478,8 @@ namespace TankBattle
 
             foreach( GameplayTank tank in Tanks) // check how many tanks are alive
             {
-                if (tank.TankExists())
-                {
-                    tanksAlive++; // if alive increment total tanksAlive
-                }
+                // if alive increment total tanksAlive
+                tanksAlive = (tank.TankExists()) ? (tanksAlive+1) : (tanksAlive);
             }
             if (tanksAlive > 1) // more than one player still alive
             {
@@ -529,7 +496,7 @@ namespace TankBattle
                 Random myRandom = new Random(); // used to chanage windspeed
 
                 //change up windspeed between -10 and 10 of current value
-                windSpeed = windSpeed + myRandom.Next(-10, 10);
+                windSpeed = windSpeed + myRandom.Next(-3, 3);
                 //check that windspeed doesn't leave range of -100 to 100
                 if (windSpeed < -100)
                 {
