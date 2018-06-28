@@ -15,8 +15,15 @@ namespace TankBattle
         [STAThread]
         public static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.Run(new IntroForm());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.Run(new IntroForm());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

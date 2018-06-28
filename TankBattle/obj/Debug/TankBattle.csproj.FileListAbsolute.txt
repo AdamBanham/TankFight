@@ -52,3 +52,21 @@ C:\Users\Adam_\OneDrive\CAB201Programming Principles\Assignment One\CAB201Assign
 C:\Users\Adam_\OneDrive\CAB201Programming Principles\Assignment One\CAB201Assignment_AdamBanham\TankBattle\obj\Debug\TankBattle.csproj.GenerateResource.Cache
 C:\Users\Adam_\OneDrive\CAB201Programming Principles\Assignment One\CAB201Assignment_AdamBanham\TankBattle\obj\Debug\TankBattle.exe
 C:\Users\Adam_\OneDrive\CAB201Programming Principles\Assignment One\CAB201Assignment_AdamBanham\TankBattle\obj\Debug\TankBattle.pdb
+D:\Coding Projects\TankFight\TankBattle\bin\Debug\Images\background1.jpg
+D:\Coding Projects\TankFight\TankBattle\bin\Debug\Images\background2.jpg
+D:\Coding Projects\TankFight\TankBattle\bin\Debug\Images\background3.jpg
+D:\Coding Projects\TankFight\TankBattle\bin\Debug\Images\background4.jpg
+D:\Coding Projects\TankFight\TankBattle\bin\Debug\LICENSE.txt
+D:\Coding Projects\TankFight\TankBattle\bin\Debug\TankBattle.exe.config
+D:\Coding Projects\TankFight\TankBattle\bin\Debug\TankBattle.exe
+D:\Coding Projects\TankFight\TankBattle\bin\Debug\TankBattle.pdb
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.csprojResolveAssemblyReference.cache
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.BattleForm.resources
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.PlayerSetupForm.resources
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.Properties.Resources.resources
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.IntroForm.resources
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.Scoreboard.resources
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.SetupGameForm.resources
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.csproj.GenerateResource.Cache
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.exe
+D:\Coding Projects\TankFight\TankBattle\obj\Debug\TankBattle.pdb

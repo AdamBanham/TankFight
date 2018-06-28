@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TankBattle
 {
@@ -64,23 +65,7 @@ namespace TankBattle
                     
                 }
             }
-
-            //for (int y = 0; y < terrain.GetLength(0); y++)
-            //{
-            //    for (int x = 0; x < terrain.GetLength(1); x++)
-            //    {
-            //        if (terrain[y, x])
-            //        {
-            //            Console.Write("X");
-            //        }
-            //        else
-            //        {
-            //            Console.Write(".");
-            //        }
-            //    }
-            //    Console.Write("\n");
-            //}
-
+            //end of constructor
         }
 
         /// <summary>
@@ -97,9 +82,17 @@ namespace TankBattle
                 // if the wanted check is outside the current screen true false
                 return isTerrain;
             }
-            if (terrain[y, x]) // checks location 
+            try
             {
-                isTerrain = true; // change bool to show terrain
+                if (terrain[y, x]) // checks location 
+                {
+                    isTerrain = true; // change bool to show terrain
+                }
+            }
+            catch(IndexOutOfRangeException error)
+            {
+                MessageBox.Show("Error accessing terrain in Battlefeild.Get");
+                throw error;
             }
             return isTerrain;
         }
@@ -115,34 +108,30 @@ namespace TankBattle
             bool badLocation; // used to storage if the location meets conditions to place tank
             int colisionCount = 0; // counts how many tiles are in location
             // check the box of 3x4 below target location for terrain 
-            for (int height = y; height < y + TankModel.HEIGHT &&
-                                height < Battlefield.HEIGHT
-
-                                ;
-                                height++) // check each row below for terrain 
+            try
             {
-                for (int width = x; width < x + TankModel.WIDTH &&
-                                            width < Battlefield.WIDTH
-                                            ;
-                                            width++) // check each range of a row for terrain
+                for (int height = y; height < y + TankModel.HEIGHT &&
+                                     height < Battlefield.HEIGHT;
+                                    height++) // check each row below for terrain 
                 {
-                    if (Get(width, height)) //check point for terrain
+                    for (int width = x; width < x + TankModel.WIDTH &&
+                                        width < Battlefield.WIDTH;
+                                        width++)// check each range of a row for terrain
                     {
-                        colisionCount++; // increment tile count for terrain
+                        if (Get(width, height)) //check point for terrain
+                        {
+                            colisionCount++; // increment tile count for terrain
+                        }
                     }
                 }
-
-                
             }
-            if (colisionCount == 0) // if there are zero tiles in tank model
-                {
-                    badLocation = false;
-                }
-            else
+            catch (IndexOutOfRangeException error)
             {
-                badLocation = true;
+                MessageBox.Show("Error accessing terrain in battlefield.TankFits");
+                throw error;
             }
 
+            badLocation = (colisionCount == 0) ? (false) : (true); // if there are zero tiles in tank model
             return badLocation;
         }
 
@@ -196,24 +185,36 @@ namespace TankBattle
         public bool ProcessGravity()
         {
             bool movedTerrain = false; // used to store if any terrain is moved
-            //loop through all possible points and find all floating terrain but we do it in reverse so the maximun move for a tile of terrain is one
-            for(int height= Battlefield.HEIGHT-2; height >= 0; height--) 
+                                       //loop through all possible points and find all floating terrain but we do it in reverse so the maximun move for a tile of terrain is one
+            try
             {
-                for( int width = 0; width < Battlefield.WIDTH; width++)
+                for (int height = Battlefield.HEIGHT - 2; height >= 0; height--)
                 {
-                    if(terrain[height,width] && !terrain[height + 1,width]) // if terrain found and none found below it
+                    for (int width = 0; width < Battlefield.WIDTH; width++)
                     {
-                        movedTerrain = true; //terrain drops a tile
-                        for(int checkabove = 0; height - checkabove >= 0 && terrain[height-checkabove,width]; checkabove++) //check above tiles and move all terrain down 
+                        if (terrain[height, width] && !terrain[height + 1, width]) // if terrain found and none found below it
                         {
-                            terrain[height - checkabove, width] = false; // remove terrain from current position
-                            terrain[height - checkabove + 1, width] = true; // add terrain below current position
-                        }
+                            movedTerrain = true; //terrain drops a tile
+                            for (int checkabove = 0; height - checkabove >= 0 && terrain[height - checkabove, width]; checkabove++) //check above tiles and move all terrain down 
+                            {
+                                terrain[height - checkabove, width] = false; // remove terrain from current position
+                                terrain[height - checkabove + 1, width] = true; // add terrain below current position
+                            }
 
+                        }
                     }
                 }
             }
-
+            catch(IndexOutOfRangeException indexError)
+            {
+                MessageBox.Show("Error handling terrain in BattleFeild.ProcessGravity");
+                throw indexError;
+            }
+            catch(Exception e )
+            {
+                MessageBox.Show("Error occured in Battlefield.ProcessGravity");
+                throw e;
+            }
 
             return movedTerrain;
         }
