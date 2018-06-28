@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TankBattle
 {
@@ -196,10 +197,7 @@ namespace TankBattle
                 }
             }
             // if no player to left exist set minimun angle to 1
-            if (playersToLeft == 0)
-            {
-                min = 5;
-            }
+            min = (playersToLeft == 0) ? (5) : (min);
             //check if there are other players to the right
             int playersToRight = 0;
             for (int playerNum = 0; playerNum < currentGame.NumPlayers(); playerNum++)
@@ -214,14 +212,11 @@ namespace TankBattle
                 }
             }
             // if no player to right exist set maximun angle to 1
-            if (playersToRight == 0)
-            {
-                max = -5;
-            }
+            max = (playersToRight == 0) ? (-5) : (max);            
             return new int[2] { min, max };
         }
         /// <summary>
-        /// function to take a bad shot
+        /// function to fire a bad shot
         /// </summary>
         private void TakeACrappyShot(BattleForm gameplayForm)
         {
@@ -244,26 +239,31 @@ namespace TankBattle
             firedShotLandingX.Add(x);
             fireShotLandingY.Add(y);
             // check all players alive in fight and see hit locations matches
-            for (int playerNum = 1; playerNum < currentFight.NumPlayers(); playerNum++)
+            try
             {
-                // check that player is alive
-                if (currentFight.GetBattleTank(playerNum).TankExists())
+                for (int playerNum = 1; playerNum < currentFight.NumPlayers(); playerNum++)
                 {
-                    // check X location of player ( give or take -10 or 5 )
-                    for (int rangeCheck = 0; rangeCheck < 10; rangeCheck++)
-                    if (currentFight.GetBattleTank(playerNum).GetX() == (int)x + rangeCheck ||
-                        currentFight.GetBattleTank(playerNum).GetX() == (int)x - rangeCheck )
+                    // check that player is alive and shot didnt hit the tank it came from
+                    if (!(currentFight.GetPlayerTank() == currentFight.GetBattleTank(playerNum)) &&
+                        currentFight.GetBattleTank(playerNum).TankExists())
                     {
-                        
-                            this.shotHit.Add(true);
-                            break;
+                        // check X location of player ( give or take -10 or 5 )
+                        for (int rangeCheck = 0; rangeCheck < 10; rangeCheck++)
+                            if (currentFight.GetBattleTank(playerNum).GetX() == (int)x + rangeCheck ||
+                                currentFight.GetBattleTank(playerNum).GetX() == (int)x - rangeCheck)
+                            {
+
+                                this.shotHit.Add(true);
+                                break;
+                            }
                     }
+
                 }
-                
             }
-            
-            
-            
+             catch (IndexOutOfRangeException error)
+            {
+                MessageBox.Show("Error handling players in AIOpponent.ReportHit");
+            }
         }
     }
 }
