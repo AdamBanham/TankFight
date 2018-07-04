@@ -66,9 +66,8 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// method draws one frame of the Explosion.
-        /// The idea is to draw a circle that expands,
-        /// cycling from yellow to red and then fading out.
+        /// Draws one frame of the Explosion.
+        /// The idea is to draw a circle that expands, cycling from yellow to red and then fading out.
         /// </summary>
         /// <param name="graphics">draw explosion on this graphics</param>
         /// <param name="displaySize">Scaling to this displaySize</param>
@@ -112,26 +111,30 @@ namespace TankBattle
             graphics.FillEllipse(paintBrush, paintPoint);
         }
 
+        /// <summary>
+        /// Gets the current lifespan of the effect
+        /// </summary>
+        /// <returns>returns the lifespan in seconds</returns>
         private float Lifespan()
         {
             return effectLifespan;
         }
 
-
     }
 
-    public class PierceExplosion : Explosion
-    {
-        public PierceExplosion(int explosionDamage, int explosionRadius, int earthDestructionRadius) : base(explosionDamage, explosionRadius, earthDestructionRadius)
-        {
-        }
+    // unused class for piercing bullets
+    //public class PierceExplosion : Explosion
+    //{
+    //    public PierceExplosion(int explosionDamage, int explosionRadius, int earthDestructionRadius) : base(explosionDamage, explosionRadius, earthDestructionRadius)
+    //    {
+    //    }
 
-        public override void  Tick()
-        {
-            // do the normal run of a explosion tick
-            base.Tick();
-            //but if the e4xplosions occurs then create a new bullet 
+    //    public override void  Tick()
+    //    {
+    //        // do the normal run of a explosion tick
+    //        base.Tick();
+    //        //but if the explosions occurs then create a new bullet 
             
-        }
-    }
+    //    }
+    //}
 }
