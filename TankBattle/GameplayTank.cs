@@ -20,7 +20,13 @@ namespace TankBattle
         private int currentWeapon;
         private Bitmap tankBmp;
 
-
+        /// <summary>
+        ///  creates a new tank for a player
+        /// </summary>
+        /// <param name="player">The owner of new tank</param>
+        /// <param name="tankX">Starting X coordinate of new tank</param>
+        /// <param name="tankY">Starting Y coordinate of new tank</param>
+        /// <param name="game">The current battle</param>
         public GameplayTank(GenericPlayer player, int tankX, int tankY, Battle game)
         {
             //sets up the default values of tank via passed information in constructor
@@ -41,7 +47,7 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// returns the tanks owner
+        /// returns the tanks reference to the owner
         /// </summary>
         /// <returns></returns>
         public GenericPlayer GetPlayerNumber()
@@ -50,7 +56,7 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// returns the model assoicated with the owner
+        /// returns the model assoicated with the tank
         /// </summary>
         /// <returns></returns>
         public TankModel GetTank()
@@ -90,6 +96,7 @@ namespace TankBattle
             if ((currentPower<5 || currentPower > 100))
             {
                 // if it doesnt then return either the min or max depending on value
+
                 if (currentPower < 5)
                 {
                     return mimimumPower;
@@ -212,15 +219,7 @@ namespace TankBattle
         {
             bool tankAlive;
             // check current durbility to see if tank is alive
-            if (tankDurbility > 0)
-            {
-                tankAlive = true; // tank can still fight
-            }
-            else
-            {
-                tankAlive = false; // tank is destroyed
-            }
-
+            tankAlive = (tankDurbility > 0) ? (true) : (false);
             return tankAlive;
         }
 
@@ -258,7 +257,7 @@ namespace TankBattle
                     tankPosY++;
                     DamagePlayer(fallingDamage);
                     //check to see if tank has fallen to the bottom of map
-                    if (tankPosY == (Battlefield.HEIGHT - TankModel.HEIGHT))
+                    if (tankPosY >= (Battlefield.HEIGHT - TankModel.HEIGHT))
                     {
                         //destroy tank as it has fallen off the map
                         tankDurbility = -1;
@@ -266,12 +265,8 @@ namespace TankBattle
                     // tank has moved so change bool and return
                     tankMoved = true;
                     return tankMoved;
-
                 }
-
             }
-
-
         }
     }
 }
