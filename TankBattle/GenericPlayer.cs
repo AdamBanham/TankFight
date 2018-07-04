@@ -17,7 +17,7 @@ namespace TankBattle
         /// <summary>
         /// sets up a player to begin playing the game
         /// </summary>
-        /// <param name="name">name of player</param>
+        /// <param name="name">name of a player</param>
         /// <param name="tank">player's tank</param>
         /// <param name="colour">colour of player's tank/s</param>
         public GenericPlayer(string name, TankModel tank, Color colour)
@@ -50,7 +50,7 @@ namespace TankBattle
         /// <summary>
         /// returns the colour of a player
         /// </summary>
-        /// <returns> a colour of player</returns>
+        /// <returns></returns>
         public Color PlayerColour()
         {
             return playerColour;
