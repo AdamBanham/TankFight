@@ -425,6 +425,7 @@ namespace TankBattle
         /// <param name="radius">Explosion circle</param>
         public void DamagePlayer(float damageX, float damageY, float explosionDamage, float radius)
         {
+            string floatingText; // used to store the display text of a hit
             float tankX; //used to store centre of tank
             float tankY; // used to store centre of tank
             float distance; // used to store distance between explosion and tank
@@ -443,14 +444,18 @@ namespace TankBattle
                     tankY = (float)(tank.Y()); // find the centre of a tank by adding half the height 
                     // calculate distance between bullet hit (damageX,damageY) and tank
                     // using elucian distnat = sqrt ((x1-x2,2)+(y1-y2,2))
-                    distance =(float) Math.Sqrt(  Math.Pow((damageX - tankX), 2) +
-                                                  Math.Pow((damageY - tankY), 2)
+                    distance =(float) Math.Sqrt(  Math.Pow((damageX - tankX+TankModel.WIDTH/2), 2) +
+                                                  Math.Pow((damageY - tankY-TankModel.HEIGHT/2), 2)
                                                   );
                     if (distance <= radius) // if tank is within the radius of explosion
                     {
                         // if tank is over half the radius away
                         damage = (distance > radius / 2) ? (explosionDamage * .35) : ((double)explosionDamage);
                         tank.DamagePlayer((int)damage);
+                        // create the text to display what type of hit occured
+                        floatingText = (damage == (double)explosionDamage) ? ("Perfect Hit!") : ("Near Miss!");
+                        HitText displayText = new HitText(floatingText, damageX, damageY);
+                        AddEffect(displayText);
                     }
                 }
             }

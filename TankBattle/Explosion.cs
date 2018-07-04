@@ -122,6 +122,53 @@ namespace TankBattle
 
     }
 
+    public class HitText : AttackEffect
+    {
+        private float xCoordinate;
+        private float yCoordinate;
+        private string flowingText;
+        private float textLifespan;
+
+        /// <summary>
+        /// Creates a flowing text at a point on a battlefield
+        /// </summary>
+        /// <param name="Text">What text should be shown</param>
+        /// <param name="x">The X coordinate for the text</param>
+        /// <param name="y">The Y coordinate for the text</param>
+        public HitText (string Text , float x , float y)
+        {
+            xCoordinate = x;
+            yCoordinate = y;
+            flowingText = Text;
+            textLifespan = 1.0f;
+        }
+        public override void Paint(Graphics graphics, Size displaySize)
+        {
+            //work out the centre of floating text
+            float paintX = (float)xCoordinate * displaySize.Width / Battlefield.WIDTH;
+            float paintY = (float)yCoordinate * displaySize.Height / Battlefield.HEIGHT;
+            // draw text on the screen
+            Font textFont = new Font(FontFamily.Families[1],32);
+            Brush paintBrush = new SolidBrush(Color.OrangeRed);
+            graphics.DrawString(flowingText, textFont, paintBrush,paintX,paintY);
+        }
+
+        public override void Tick()
+        {
+            //check to see if text has completed its lifespan
+            if (textLifespan < 0f)
+            {
+                //remove this effect from the game
+                this.currrentGame.RemoveWeaponEffect(this);
+            }
+            //reduce the lifespan of text
+            textLifespan = textLifespan - .1f;
+            // drift text upwards
+            yCoordinate -= .1f;
+
+        }
+    }
+
     // unused class for piercing bullets
     //public class PierceExplosion : Explosion
     //{
@@ -134,7 +181,7 @@ namespace TankBattle
     //        // do the normal run of a explosion tick
     //        base.Tick();
     //        //but if the explosions occurs then create a new bullet 
-            
+
     //    }
     //}
 }
