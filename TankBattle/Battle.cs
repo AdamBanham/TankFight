@@ -99,7 +99,15 @@ namespace TankBattle
         /// <returns>a reference to a GameplayTank for player</returns>
         public GameplayTank GetBattleTank(int playerNum)
         {
-            return Tanks[playerNum];
+            try
+            {
+                return Tanks[playerNum - 1];
+            }
+            catch (IndexOutOfRangeException error)
+            {
+                MessageBox.Show(error.Message);
+                throw error;
+            }
         }
 
         /// <summary>

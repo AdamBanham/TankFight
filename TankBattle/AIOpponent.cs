@@ -185,7 +185,7 @@ namespace TankBattle
             }
             //check if there are other players to the left
             int playersToLeft = 0;
-            for (int playerNum = 0; playerNum < currentGame.NumPlayers(); playerNum++)
+            for (int playerNum = 1; playerNum <= currentGame.NumPlayers(); playerNum++)
             {
                 // check to see if a player is left of current player
                 if(currentGame.GetPlayerTank().GetX() > currentGame.GetBattleTank(playerNum).GetX()
@@ -197,10 +197,10 @@ namespace TankBattle
                 }
             }
             // if no player to left exist set minimun angle to 1
-            min = (playersToLeft == 0) ? (5) : (min);
+            min = (playersToLeft == 0) ? (1) : (min);
             //check if there are other players to the right
             int playersToRight = 0;
-            for (int playerNum = 0; playerNum < currentGame.NumPlayers(); playerNum++)
+            for (int playerNum = 1; playerNum <= currentGame.NumPlayers(); playerNum++)
             {
                 // check to see if a player is right of current player
                 if (currentGame.GetPlayerTank().GetX() < currentGame.GetBattleTank(playerNum).GetX() 

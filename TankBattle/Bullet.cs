@@ -18,15 +18,15 @@ namespace TankBattle
         private float velocityY; // how fast the bullet is moving
 
         /// <summary>
-        /// creates a new bullet
+        /// creates a new bullet projectile 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="angle"></param>
-        /// <param name="power"></param>
-        /// <param name="gravity"></param>
-        /// <param name="explosion"></param>
-        /// <param name="player"></param>
+        /// <param name="x">Starting X coordinate position</param>
+        /// <param name="y">Starting Y coordinate position</param>
+        /// <param name="angle">Firing angle from tank</param>
+        /// <param name="power">Firing power from tank</param>
+        /// <param name="gravity">current gravity on battlefield</param>
+        /// <param name="explosion">explosion that occurs when bullet hits</param>
+        /// <param name="player">firing player</param>
         public Bullet(float x, float y, float angle, float power, float gravity, Explosion explosion, GenericPlayer player)
         {
             // set default values of the new bullet
@@ -39,13 +39,13 @@ namespace TankBattle
             // workout direction and quickness of bullet
             float angleRadians = (90 - angle) * (float)Math.PI / 180; // direction of bullet
             float magnitude = power / 50; // movement vector of bullet
-            // calculate velocity
+            // calculate velocity of the projectile
             velocityX = (float)Math.Cos(angleRadians) * magnitude;
             velocityY = (float)Math.Sin(angleRadians) * -magnitude;
         }
 
         /// <summary>
-        /// moves the given projectile according to its angle, power, gravity and the wind. 
+        /// moves the given projectile across the battelfeild 
         /// </summary>
         public override void Tick()
         {
@@ -78,7 +78,6 @@ namespace TankBattle
                         {
                             bulletOwner.ReportHit(bulletX, bulletY);
                         }
-                        
                         //cause explosion
                         bulletExplosion.Explode(bulletX, bulletY);
                         //add the explosion to effects
@@ -90,8 +89,7 @@ namespace TankBattle
                 }
                 // calucalte fall due to gravity on next frame
                 velocityY = velocityY + bulletGravity;
-                //end loop
-            }
+            }//end loop
         // function end
         }
 
@@ -119,7 +117,7 @@ namespace TankBattle
         /// checks if a bullet is about to hit the tank that shot it
         /// </summary>
         /// <param name="owner">who owns the shot</param>
-        /// <param name="x"> the location of explosion</param>
+        /// <param name="x"> the location of effect</param>
         /// <returns></returns>
         private bool CheckPlayerOwner (GenericPlayer owner , int x)
         {
@@ -130,8 +128,8 @@ namespace TankBattle
                 // check the x of each player against the owner of bullet
                 for(int rangeCheck = 0; rangeCheck < 5; rangeCheck++)
                 {
-                    if( this.currrentGame.GetBattleTank(playerNum-1).GetX() == x - rangeCheck ||
-                        this.currrentGame.GetBattleTank(playerNum-1).GetX() == x + rangeCheck)
+                    if( this.currrentGame.GetBattleTank(playerNum).GetX() == x - rangeCheck ||
+                        this.currrentGame.GetBattleTank(playerNum).GetX() == x + rangeCheck)
                     {
                         //this player is near the x value
                         //check player isnt owner
