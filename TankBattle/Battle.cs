@@ -436,7 +436,7 @@ namespace TankBattle
                 damage = 0; //reset damage
                 //reset variables for new tank
                 tankX = 0; tankY = 0; distance = 0; damage = 0;
-                if (tank.TankExists()) // tank still in game
+                if (tank.TankExists() && !(tank == this.GetPlayerTank()) ) // tank still in game and that tank isn't the current tank
                 {
                     // store cordinates as float for accuratity
                     tankX = (float)(tank.GetX()); // find the centre of a tank by adding half the width
