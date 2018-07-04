@@ -9,7 +9,7 @@ namespace TankBattle
 {
     public abstract class TankModel
     {
-        public const int WIDTH = 4;
+        public const int WIDTH = 3;
         public const int HEIGHT = 3;
         public const int NUM_TANKS = 1;
 
@@ -114,6 +114,11 @@ namespace TankBattle
 
         public abstract void ActivateWeapon(int weapon, GameplayTank playerTank, Battle currentGame);
 
+        /// <summary>
+        /// Gets a model based off the given number
+        /// </summary>
+        /// <param name="tankNumber">a interger between 1 to 4 , will default to 1</param>
+        /// <returns>a model for a tank type</returns>
         public static TankModel GetTank(int tankNumber)
         {
             switch (tankNumber)
@@ -140,11 +145,11 @@ namespace TankBattle
         private string weaponName = "Iron shell"; // used to storage the tank's weapon
 
         /// <summary>
-        /// method is used to handle firing a specified weapon from the tank
+        /// Fire a specified weapon from the tank
         /// </summary>
-        /// <param name="weapon">weapon fired</param>
-        /// <param name="playerTank">tank firing</param>
-        /// <param name="currentGame"></param>
+        /// <param name="weapon">Weapon selected</param>
+        /// <param name="playerTank">The tank firing</param>
+        /// <param name="currentGame">The current battle</param>
         public override void ActivateWeapon(int weapon, GameplayTank playerTank, Battle currentGame)
         {
             float tankX; // used to storage the firing position of a tank
@@ -237,9 +242,9 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// Returns the names of weapons that this tank has
+        /// Gets the weapons that this tank has available
         /// </summary>
-        /// <returns>array of names</returns>
+        /// <returns>array of weapon names</returns>
         public override string[] ListWeapons()
         {
             return new string[] { weaponName };
@@ -254,11 +259,11 @@ namespace TankBattle
         enum WeaponChoice {DoubleTap , Barrage};
 
         /// <summary>
-        /// method is used to fire a bullet from this tank type
+        /// Fire a specified weapon from the tank
         /// </summary>
-        /// <param name="weapon"> weapon choice </param>
-        /// <param name="playerTank"> firing tank </param>
-        /// <param name="currentGame"> the current fight </param>
+        /// <param name="weapon">Weapon selected</param>
+        /// <param name="playerTank">The tank firing</param>
+        /// <param name="currentGame">The current battle</param>
         public override void ActivateWeapon(int weapon, GameplayTank playerTank, Battle currentGame)
         {
             float tankX; // used to storage the firing position of a tank
@@ -415,9 +420,6 @@ namespace TankBattle
                 SetLine(graphic, 10, 4, 10, 2);
                 SetLine(graphic, 9, 2, 9, 2);
             }
-            
-            
-
             return graphic;
         }
 
@@ -431,9 +433,9 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// Returns the names of weapons that this tank has
+        /// Gets the weapons that this tank has available
         /// </summary>
-        /// <returns>array of names</returns>
+        /// <returns>array of weapon names</returns>
         public override string[] ListWeapons()
         {
             return weaponNames;
@@ -447,11 +449,11 @@ namespace TankBattle
         enum WeaponChoice { BigBang, SmallBangs };
 
         /// <summary>
-        /// fire a shot from a tank of this type
+        /// Fire a specified weapon from the tank
         /// </summary>
-        /// <param name="weapon">The choice of weapon</param>
-        /// <param name="playerTank">player firing the shot</param>
-        /// <param name="currentGame">the current game that the tank exists in</param>
+        /// <param name="weapon">Weapon selected</param>
+        /// <param name="playerTank">The tank firing</param>
+        /// <param name="currentGame">The current battle</param>
         public override void ActivateWeapon(int weapon, GameplayTank playerTank, Battle currentGame)
         {
             float tankX; // used to storage the firing position of a tank
@@ -619,10 +621,6 @@ namespace TankBattle
                 SetLine(graphic, 8, 5, 4, 5);
                 SetLine(graphic, 9, 4, 4, 4);
             }
-
-
-
-
             return graphic;
         }
 
@@ -636,9 +634,9 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// gets all the weapons that this tank type has
+        /// Gets the weapons that this tank has available
         /// </summary>
-        /// <returns></returns>
+        /// <returns>array of weapon names</returns>
         public override string[] ListWeapons()
         {
             return weaponNames;
@@ -652,11 +650,11 @@ namespace TankBattle
         enum WeaponChoice { IronShell, PierceShot };
 
         /// <summary>
-        /// fire a shot from a tank of this type
+        /// Fire a specified weapon from the tank
         /// </summary>
-        /// <param name="weapon">The choice of weapon</param>
-        /// <param name="playerTank">player firing the shot</param>
-        /// <param name="currentGame">the current game that the tank exists in</param>
+        /// <param name="weapon">Weapon selected</param>
+        /// <param name="playerTank">The tank firing</param>
+        /// <param name="currentGame">The current battle</param>
         public override void ActivateWeapon(int weapon, GameplayTank playerTank, Battle currentGame)
         {
             float tankX; // used to storage the firing position of a tank
@@ -775,11 +773,6 @@ namespace TankBattle
                 //draw the barrel facing left
                 SetLine(graphic, 6, 3, 1, 3);
             }
-
-
-
-
-
             return graphic;
         }
 
@@ -793,9 +786,9 @@ namespace TankBattle
         }
 
         /// <summary>
-        /// gets the name of every weapon this tank has
+        /// Gets the weapons that this tank has available
         /// </summary>
-        /// <returns></returns>
+        /// <returns>array of weapon names</returns>
         public override string[] ListWeapons()
         {
             return weaponNames;

@@ -429,7 +429,7 @@ namespace TankBattle
             float tankY; // used to store centre of tank
             float distance; // used to store distance between explosion and tank
             double damage; // used to store the damage done to tank
-            radius = (float)(radius * 1.2); // adjust radius to match visuals of explosion
+            radius = (float)(radius * 1.05); // adjust radius to match visuals of explosion
             
             foreach (GameplayTank tank in Tanks) // loop through each tank and check if it is inside explosion
             {
