@@ -278,7 +278,7 @@ namespace TankBattle
             // create the point to draw the bullet
             RectangleF paintPoint = new RectangleF(paintX - paintSize / 2.0f, paintY - paintSize / 2.0f, paintSize, paintSize);
             // create the brush to draw bullet
-            Brush paintBrush = new SolidBrush(Color.WhiteSmoke);
+            Brush paintBrush = new SolidBrush(Color.AliceBlue);
             // draw bullet on graphics
             graphics.FillEllipse(paintBrush, paintPoint);
         }
@@ -298,8 +298,8 @@ namespace TankBattle
                 // check the x of each player against the owner of bullet
                 for (int rangeCheck = 0; rangeCheck < 5; rangeCheck++)
                 {
-                    if (this.currrentGame.GetBattleTank(playerNum - 1).GetX() == x - rangeCheck ||
-                        this.currrentGame.GetBattleTank(playerNum - 1).GetX() == x + rangeCheck)
+                    if (this.currrentGame.GetBattleTank(playerNum).GetX() == x - rangeCheck ||
+                        this.currrentGame.GetBattleTank(playerNum).GetX() == x + rangeCheck)
                     {
                         //this player is near the x value
                         //check player isnt owner
@@ -323,7 +323,6 @@ namespace TankBattle
             //work out the new bullet angle
             // in the constructor we have a formula to work out the velocity from the angle
             // to find the angle we just reverse the formula
-
             // velocityY = Math.Sin(angleRadians) * -bulletPower
             // velocityY/-bulletPower = Math.Sin(angleRadians)
             // Math.Asin(velocityY/-bulletPower) = angleRadians
@@ -358,17 +357,13 @@ namespace TankBattle
             //create new bullet
             Bullet innerBullet;
             // check the velocity to see if the bullet was falling or rising 
-            if (velocityY <= 0)
-            {
-                newBulletAngle *= -1f;
-            }
+            newBulletAngle = (velocityY <= 0) ? (newBulletAngle *= -1f) : (newBulletAngle);
             // work out which way the bullet is travelling to adjust the next shots begining point
             if(bulletAngle > 0)
             {
                 //bullet is travelling to the left , new bullet should appear to the left
                 bulletX = bulletX + travelDist;
                 bulletY = bulletY + travelDist;
-
             }
             if (bulletAngle < 0)
             {
@@ -377,20 +372,10 @@ namespace TankBattle
                 bulletY = bulletY - travelDist;
             }
             //check the angle isn't outside bounds -90 or 90
-            if (newBulletAngle < -90 || newBulletAngle > 90)
-            {
-                //change back to limits of game
-                if(newBulletAngle < -90)
-                {
-                    newBulletAngle = -90;
-                }
-                if(newBulletAngle > 90)
-                {
-                    newBulletAngle = 90;
-                }
-            }
-
-
+            //change back to limits of game
+            newBulletAngle = (newBulletAngle < -90) ? (-90) : (newBulletAngle);
+            newBulletAngle = (newBulletAngle > 90) ? (90) : (newBulletAngle);
+            //create the inner shell with defined parameters
             innerBullet = new Bullet(bulletX,
                                       bulletY,
                                       (float)newBulletAngle,

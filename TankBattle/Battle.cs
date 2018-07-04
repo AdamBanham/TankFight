@@ -105,7 +105,7 @@ namespace TankBattle
             }
             catch (IndexOutOfRangeException error)
             {
-                MessageBox.Show(error.Message);
+                MessageBox.Show(error.StackTrace);
                 throw error;
             }
         }
